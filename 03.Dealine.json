@@ -1,0 +1,990 @@
+{
+  "name": "03.Dealine",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1920,
+        320
+      ],
+      "id": "6262547d-8afa-4d9b-9e83-f058cab7e498",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        160,
+        560
+      ],
+      "id": "5a298737-806c-4e71-a8d6-e109083e312d",
+      "name": "Loop Over Items",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appP3w9Lgda9aPdby",
+          "mode": "list",
+          "cachedResultName": "KẾ HOẠCH_Nhuan",
+          "cachedResultUrl": "https://airtable.com/appP3w9Lgda9aPdby"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbltJmXLHUwQ50R7Y",
+          "mode": "list",
+          "cachedResultName": "Kế Hoạch",
+          "cachedResultUrl": "https://airtable.com/appP3w9Lgda9aPdby/tbltJmXLHUwQ50R7Y"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -1696,
+        320
+      ],
+      "id": "c9e59b9f-6f39-4231-9886-d2d1fff5641b",
+      "name": "Search records",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "GTojMmkTzXHO1lXq",
+          "name": "Airtable Personal Access Token account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appP3w9Lgda9aPdby",
+          "mode": "list",
+          "cachedResultName": "KẾ HOẠCH_Nhuan",
+          "cachedResultUrl": "https://airtable.com/appP3w9Lgda9aPdby"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbltJmXLHUwQ50R7Y",
+          "mode": "list",
+          "cachedResultName": "Kế Hoạch",
+          "cachedResultUrl": "https://airtable.com/appRXsC3z5rOzpBPH/tbltJmXLHUwQ50R7Y"
+        },
+        "filterByFormula": "={Stt} = \"{{ $json.Stt }}\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        400,
+        480
+      ],
+      "id": "9f87d4f1-ab5f-4f82-924f-753e4498be12",
+      "name": "Search records1",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "GTojMmkTzXHO1lXq",
+          "name": "Airtable Personal Access Token account 3"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "call",
+        "from": "(815) 542-3572",
+        "to": "={{ $json[\"SDT Nhân Viên\"] }}",
+        "message": "=Thông báo khẩn",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [
+        672,
+        464
+      ],
+      "id": "e74784bb-5dc2-4893-aacb-19764aa911b1",
+      "name": "Make a call",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appP3w9Lgda9aPdby",
+          "mode": "list",
+          "cachedResultName": "KẾ HOẠCH_Nhuan",
+          "cachedResultUrl": "https://airtable.com/appP3w9Lgda9aPdby"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbltJmXLHUwQ50R7Y",
+          "mode": "list",
+          "cachedResultName": "Kế Hoạch",
+          "cachedResultUrl": "https://airtable.com/appP3w9Lgda9aPdby/tbltJmXLHUwQ50R7Y"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Tình Trạng Email": "Đã Gọi Điện",
+            "id": "={{ $('Search records1').item.json.id }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Stt",
+              "displayName": "Stt",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Nội dung công việc",
+              "displayName": "Nội dung công việc",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Ngày bắt đầu",
+              "displayName": "Ngày bắt đầu",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Ngày hoàn thành",
+              "displayName": "Ngày hoàn thành",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Nhân Viên",
+              "displayName": "Nhân Viên",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Tình trạng ( Xong hoặc chưa )",
+              "displayName": "Tình trạng ( Xong hoặc chưa )",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Chưa",
+                  "value": "Chưa"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "SDT Nhân Viên",
+              "displayName": "SDT Nhân Viên",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Email Đơn vị thực hiện",
+              "displayName": "Email Đơn vị thực hiện",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Tình Trạng Email",
+              "displayName": "Tình Trạng Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Chưa Gửi",
+                  "value": "Chưa Gửi"
+                },
+                {
+                  "name": "Đã Gởi Lần 1",
+                  "value": "Đã Gởi Lần 1"
+                },
+                {
+                  "name": "",
+                  "value": ""
+                },
+                {
+                  "name": "Đã Gọi Điện",
+                  "value": "Đã Gọi Điện"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Ngày Gởi Email",
+              "displayName": "Ngày Gởi Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1136,
+        576
+      ],
+      "id": "ff33eb33-8785-4104-b619-5a36988609fb",
+      "name": "Update record1",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "GTojMmkTzXHO1lXq",
+          "name": "Airtable Personal Access Token account 3"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -352,
+        48
+      ],
+      "id": "7121e507-3e8b-4807-9828-d37a4f21d3b0",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json[\"Email Đơn vị thực hiện\"] }}",
+        "subject": "THÔNG BÁO KHẨN",
+        "message": "= \n<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n     <style>\n        body { \n            font-family: Arial, sans-serif; \n            line-height: 1.6; \n            color: #333; \n            margin: 0;\n            padding: 0;\n            background-color: #f5f5f5;\n        }\n        \n        .container { \n            max-width: 600px; \n            margin: 0 auto; \n            padding: 10px;\n            background-color: #ffffff;\n        }\n        \n        .header { \n            background-color: #ff6b6b; \n            color: white; \n            padding: 20px 15px; \n            border-radius: 5px 5px 0 0;\n            text-align: center;\n        }\n        \n        .header h2 {\n            margin: 0;\n            font-size: 1.2em;\n        }\n        \n        .content { \n            background-color: #f9f9f9; \n            padding: 20px 15px; \n            border: 1px solid #ddd;\n        }\n        \n        .footer { \n            background-color: #333; \n            color: white; \n            padding: 15px 10px; \n            text-align: center; \n            border-radius: 0 0 5px 5px;\n            font-size: 0.9em;\n        }\n        \n        .urgent { \n            color: #ff6b6b; \n            font-weight: bold; \n        }\n        \n        .task-info { \n            background-color: white; \n            padding: 15px; \n            border-left: 4px solid #ff6b6b; \n            margin: 15px 0;\n            border-radius: 3px;\n            box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n        }\n        \n        .task-info h3 {\n            margin: 0 0 15px 0;\n            color: #333;\n            font-size: 1.1em;\n        }\n        \n        .task-info p {\n            margin: 8px 0;\n        }\n        \n        /* Mobile responsive styles */\n        @media only screen and (max-width: 600px) {\n            .container {\n                padding: 5px;\n                margin: 0;\n            }\n            \n            .header {\n                padding: 15px 10px;\n                border-radius: 0;\n            }\n            \n            .header h2 {\n                font-size: 1.1em;\n                line-height: 1.3;\n            }\n            \n            .content {\n                padding: 15px 10px;\n                border-radius: 0;\n                border-left: none;\n                border-right: none;\n            }\n            \n            .footer {\n                padding: 12px 10px;\n                border-radius: 0;\n                font-size: 0.85em;\n            }\n            \n            .task-info {\n                padding: 12px;\n                margin: 10px 0;\n                border-radius: 3px;\n            }\n            \n            .task-info h3 {\n                font-size: 1em;\n                margin-bottom: 12px;\n            }\n            \n            p {\n                font-size: 0.95em;\n                margin: 12px 0;\n            }\n            \n            .urgent {\n                font-size: 0.95em;\n            }\n        }\n        \n        /* Extra small phones */\n        @media only screen and (max-width: 480px) {\n            .header h2 {\n                font-size: 1em;\n            }\n            \n            .content {\n                padding: 12px 8px;\n            }\n            \n            .task-info {\n                padding: 10px;\n            }\n            \n            p {\n                font-size: 0.9em;\n            }\n            \n            .footer {\n                font-size: 0.8em;\n                padding: 10px 8px;\n            }\n        }\n        \n        /* Dark mode support */\n        @media (prefers-color-scheme: dark) {\n            body {\n                background-color: #1a1a1a;\n            }\n            \n            .container {\n                background-color: #2d2d2d;\n            }\n            \n            .content {\n                background-color: #3a3a3a;\n                color: #e0e0e0;\n                border-color: #555;\n            }\n            \n            .task-info {\n                background-color: #2d2d2d;\n                color: #e0e0e0;\n            }\n            \n            .task-info h3 {\n                color: #fff;\n            }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"header\">\n            <h2>⚠️ THÔNG BÁO CÔNG VIỆC QUÁ DEADLINE</h2>\n        </div>\n        \n        <div class=\"content\">\n            <p>Kính gửi <strong>{{ $json['Nhân Viên'] }}</strong>,</p>\n            \n            <p class=\"urgent\">Công việc dưới đây đã quá deadline {{ Math.floor((DateTime.now().toMillis() - DateTime.fromISO($json[\"Ngày hoàn thành\"]).toMillis()) / (1000 * 60 * 60 * 24)) }}\n ngày và vẫn chưa được hoàn thành:</p>\n            \n            <div class=\"task-info\">\n                <h3>📋{{ $json['Nội dung công việc'] }} </h3>\n                <p><strong>Ngày bắt đầu:</strong> {{ $json['Ngày bắt đầu'] }} </p>\n                <p><strong>Deadline:</strong> {{ $json['Ngày hoàn thành'] }}</p>\n                <p><strong>Trạng thái:</strong> <span class=\"urgent\">{{ $json['Tình trạng ( Xong hoặc chưa )'] }}</span></p>\n            </div>\n            \n            <p>Vui lòng <strong>hoàn thành công việc này trong thời gian sớm nhất</strong> và cập nhật trạng thái trong bảng kế hoạch.</p>\n            \n            <p><strong>Lưu ý:</strong> Nếu không hoàn thành trong 24h, hệ thống sẽ tự động gọi điện để nhắc nhở.</p>\n            \n            <p>Trân trọng,<br>\n            <strong>Hệ thống Quản lý Dự án Tự động</strong></p>\n        </div>\n        \n        <div class=\"footer\">\n            <p>📧 Đây là email tự động. Vui lòng không reply trực tiếp.</p>\n        </div>\n    </div>\n</body>\n</html>\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        896,
+        0
+      ],
+      "id": "cd351026-e7b8-410a-bfae-5291b6d0b413",
+      "name": "Send a message1",
+      "webhookId": "014bc804-f1f0-4834-bee6-e44d46e44762",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "HUDklGLg9YcxxT99",
+          "name": "Gmail account 12"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appP3w9Lgda9aPdby",
+          "mode": "list",
+          "cachedResultName": "KẾ HOẠCH_Nhuan",
+          "cachedResultUrl": "https://airtable.com/appP3w9Lgda9aPdby"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbltJmXLHUwQ50R7Y",
+          "mode": "list",
+          "cachedResultName": "Kế Hoạch",
+          "cachedResultUrl": "https://airtable.com/appP3w9Lgda9aPdby/tbltJmXLHUwQ50R7Y"
+        },
+        "filterByFormula": "={Stt} = \"{{ $json.Stt }}\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        48,
+        16
+      ],
+      "id": "27d8bc42-da43-4033-ab56-1a6e35431c2c",
+      "name": "Search records2",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "GTojMmkTzXHO1lXq",
+          "name": "Airtable Personal Access Token account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appP3w9Lgda9aPdby",
+          "mode": "list",
+          "cachedResultName": "KẾ HOẠCH_Nhuan",
+          "cachedResultUrl": "https://airtable.com/appP3w9Lgda9aPdby"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbltJmXLHUwQ50R7Y",
+          "mode": "list",
+          "cachedResultName": "Kế Hoạch",
+          "cachedResultUrl": "https://airtable.com/appP3w9Lgda9aPdby/tbltJmXLHUwQ50R7Y"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Tình Trạng Email": "Đã Gởi Lần 1",
+            "id": "={{ $('Search records2').item.json.id }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Stt",
+              "displayName": "Stt",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Nội dung công việc",
+              "displayName": "Nội dung công việc",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Ngày bắt đầu",
+              "displayName": "Ngày bắt đầu",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Ngày hoàn thành",
+              "displayName": "Ngày hoàn thành",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Nhân Viên",
+              "displayName": "Nhân Viên",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Tình trạng ( Xong hoặc chưa )",
+              "displayName": "Tình trạng ( Xong hoặc chưa )",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Chưa",
+                  "value": "Chưa"
+                },
+                {
+                  "name": "Xong",
+                  "value": "Xong"
+                },
+                {
+                  "name": "",
+                  "value": ""
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "SDT Nhân Viên",
+              "displayName": "SDT Nhân Viên",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Email Đơn vị thực hiện",
+              "displayName": "Email Đơn vị thực hiện",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Tình Trạng Email",
+              "displayName": "Tình Trạng Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Chưa Gởi",
+                  "value": "Chưa Gởi"
+                },
+                {
+                  "name": "Đã Gởi Lần 1",
+                  "value": "Đã Gởi Lần 1"
+                },
+                {
+                  "name": "Đã Gọi Điện",
+                  "value": "Đã Gọi Điện"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Ngày Gởi Email",
+              "displayName": "Ngày Gởi Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Ngày Gọi Điện",
+              "displayName": "Ngày Gọi Điện",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1344,
+        176
+      ],
+      "id": "7e303865-a59e-482f-a1f0-018675a73107",
+      "name": "Update record2",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "GTojMmkTzXHO1lXq",
+          "name": "Airtable Personal Access Token account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json[\"Tình Trạng Email\"] }}",
+                    "rightValue": "Chưa Gởi",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "022275b3-090b-4de2-8eb9-a2ee88d73910"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "0d5705e5-f35b-4c97-9c79-1b6675bc3b97",
+                    "leftValue": "={{ $json[\"Tình Trạng Email\"] }}",
+                    "rightValue": "Đã Gởi Lần 1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -752,
+        304
+      ],
+      "id": "e8a6040e-a274-4ce8-96d3-6a720b6eb8e1",
+      "name": "Switch",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6393e27b-9a02-42e2-be1a-3f50f5875836",
+              "leftValue": "={{ $json[\"Tình trạng ( Xong hoặc chưa )\"] }}",
+              "rightValue": "Chưa",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -1408,
+        320
+      ],
+      "id": "4551d614-5694-4dbc-bd5c-6101f8f5b65f",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "65696a60-dd72-4a8d-b005-e206f40bb4ff",
+              "leftValue": "={{ DateTime.fromISO($json[\"Ngày hoàn thành\"]).toMillis() }}",
+              "rightValue": "={{ DateTime.now().toMillis() }}",
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1136,
+        320
+      ],
+      "id": "2e502f13-41d0-44b1-a072-04c9eca96940",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b9563033-ddf7-4922-8785-48333b7c7745",
+              "leftValue": "={{ DateTime.now().toFormat(\"yyyy-MM-dd\") }}",
+              "rightValue": "={{ $json[\"Ngày Gởi Email\"] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        336,
+        0
+      ],
+      "id": "02036573-94e1-4bc1-838e-495e110495c3",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "18045f67-6c29-4a8f-b388-9a3fa2f76c9a",
+              "leftValue": "={{ DateTime.now().toFormat(\"yyyy-MM-dd\") }}",
+              "rightValue": "={{ $json[\"Ngày Gọi Điện\"] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -400,
+        512
+      ],
+      "id": "8392013d-5955-472c-a6b1-e2de0cca8f3a",
+      "name": "If1",
+      "disabled": true,
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Search records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Search records1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records1": {
+      "main": [
+        [
+          {
+            "node": "Make a call",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Make a call": {
+      "main": [
+        [
+          {
+            "node": "Update record1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update record1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Search records2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Update record2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records2": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update record2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Ho_Chi_Minh",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "b6c5ad20-91df-471c-9973-892abb8b1680",
+  "meta": {
+    "instanceId": "94a383c02457267bcc44878635a0fa02b7d3206c5479bfc8890faa812e2bbd97"
+  },
+  "id": "0XWaA2efkC7PkBDx",
+  "tags": []
+}
